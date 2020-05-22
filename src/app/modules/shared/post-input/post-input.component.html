@@ -4,12 +4,16 @@
           <mat-label class="mat-subheading-1 no-margin-btm">Message</mat-label>
           <input class="mat-subheading-1 no-margin-btm post-input"
                  matInput #message 
+                 #input
                  maxlength="256" >
           <mat-hint class="mat-caption" align="start"><strong>Don't disclose personal info</strong> </mat-hint>
           <mat-hint class="mat-caption" align="end">{{message.value.length}} / 256</mat-hint>
         </mat-form-field>
       </form>
-      <button mat-raised-button color="primary" class="post-btn" (click)="createPost()">
+      <button mat-raised-button color="primary" 
+              class="post-btn" 
+              [disabled]="input.value===''"
+              (click)="createPost(input.value)">
           Post!
       </button>
 </mat-card>

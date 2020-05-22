@@ -1,2 +1,3 @@
 
 <app-post-input></app-post-input>
+<app-post *ngFor="let post of apService.posts" [post]="post"></app-post>

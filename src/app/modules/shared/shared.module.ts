@@ -4,13 +4,15 @@ import { HeaderComponent } from './header/header.component';
 import { PostInputComponent } from './post-input/post-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
+import { PostComponent } from './post/post.component';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    PostInputComponent
+    PostInputComponent,
+    PostComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { MaterialModule } from './material/material.module';
   ],
   exports: [
     HeaderComponent,
-    PostInputComponent
+    PostInputComponent,
+    PostComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

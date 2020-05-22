@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-post-input',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _apService: AppService) { }
 
   ngOnInit(): void {
   }
 
-  createPost(): void {
-    
+  createPost(content: string): void {
+    this._apService.createPost(content);
   }
 
 }
