@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 16px;
+    height: auto;
+
+    .account-info {
+        display: flex;
+        flex-direction: column;
+
+        .account {
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .balance {
+            @extend .account;
+            align-self: self-start;
+        }
+    }
+
+    .space-right {
+        margin-right: 8px;
+    }
+
+    .no-margin-btm {
+        margin-bottom: 0px !important;
+    }
+}

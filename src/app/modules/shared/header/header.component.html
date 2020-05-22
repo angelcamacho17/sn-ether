@@ -1,0 +1,25 @@
+<mat-toolbar color="primary" class="header">
+    <div class="mat-headline">Angel's social network</div>
+    <div class="account-info">
+        <div class="account">
+            <div class="mat-subheading-1 space-right no-margin-btm " style="color: rgba(0, 0, 0, 0.87);">
+                Account:
+            </div>
+            <div class="mat-body-1 space-right no-margin-btm ">
+                {{account}}
+            </div>
+            <img *ngIf="img" width=35 height=35 src="data:image/png;base64,{{img}}" >
+        </div>
+        <div class="balance">
+            <div class="mat-subheading-1 space-right no-margin-btm " style="color: rgba(0, 0, 0, 0.87);">
+                Balance:
+            </div>
+            <div style="display: flex;">
+                <div class="mat-body-2 space-right no-margin-btm ">{{balance}}</div>
+                <div class="mat-subheading-1 no-margin-btm " style="color: rgba(0, 0, 0, 0.87);">
+                    Ether
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-toolbar>
