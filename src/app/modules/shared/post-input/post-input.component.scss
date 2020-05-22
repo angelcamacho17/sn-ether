@@ -1,0 +1,16 @@
+.card {
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+
+    .field {
+        width: 100%;
+    }
+
+    .post-btn {
+        display: flex;
+        align-self: flex-end;
+        justify-content: center;
+        width: 116px;
+    }
+}

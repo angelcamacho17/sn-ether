@@ -73,6 +73,26 @@ body {
   touch-action: auto !important;
 }
 
+.no-margin-btm {
+    margin-bottom: 0px !important;
+}
+
+.field {
+    width: 100%;
+}
+
+.mat-form-field-infix {
+    height: 24px;
+}
+
+.post-input {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: inherit !important;
+    font-family: Roboto !important;
+    letter-spacing: 0.25px !important;
+    height: 24px;
+}
 
 #main-content::-webkit-scrollbar {
   width: 8px;
