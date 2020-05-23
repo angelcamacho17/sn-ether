@@ -11,8 +11,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$my-theme-primary: mat-palette($mat-blue, A700);
-$my-theme-accent: mat-palette($mat-grey, 900);
+$my-theme-primary: mat-palette($mat-purple, 500);
+$my-theme-accent: mat-palette($mat-purple, 200);
 $my-theme-warn: mat-palette($mat-deep-orange, A200);
 
 // The warn palette is optional (defaults to red).
@@ -69,9 +69,30 @@ body {
   overflow: hidden;
   background: white;
   font-size: 8px;
+}
+
+.main-content {
   scroll-behavior: smooth !important;
   touch-action: auto !important;
+  overflow-y: scroll;
+  height: calc(100% - 86px);
+  padding-top: 86px;
 }
+
+.main-content::-webkit-scrollbar {
+  width: 8px;
+  background-color: #E5E6E8;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+  background-color: #AFB4B8;
+}
+
+.main-content::-webkit-scrollbar-track {
+  border-radius: 25px;
+}
+
 
 .no-margin-btm {
     margin-bottom: 0px !important;
@@ -92,20 +113,7 @@ body {
     font-family: Roboto !important;
     letter-spacing: 0.25px !important;
     height: 24px;
-}
-
-#main-content::-webkit-scrollbar {
-  width: 8px;
-  background-color: #E5E6E8;
-}
-
-#main-content::-webkit-scrollbar-thumb {
-  border-radius: 25px;
-  background-color: #AFB4B8;
-}
-
-#main-content::-webkit-scrollbar-track {
-  border-radius: 25px;
+    overflow-wrap: anywhere;
 }
 
 .disable-select {

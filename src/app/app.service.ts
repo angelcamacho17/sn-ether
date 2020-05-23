@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import SocialNetwork from '../../abis/SocialNetwork.json';
 import Web3 from 'web3';
 
+declare global {
+  interface Window {
+    ethereum: any;
+    web3: any;
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,13 +60,19 @@ export class AppService {
         this.posts = [...this.posts, post];
       }
       // Sort posts. Show highest tipped posts first
-      // this.posts = this.posts.sort((a, b) => b.tipAmount - a.tipAmount );
+      this.posts = await this.posts.sort((a, b) => b.tipAmount - a.tipAmount );
     } else {
       window.alert('SocialNetwork contract not deployed to detected network.');
     }
   }
 
   public createPost(content: string): void {
-    this.socialNetwork.methods.createPost(content).send({ from: this.account }).call();  
+    this.socialNetwork.methods.createPost(content).send({ from: this.account });
+  }
+
+  public tipPost(id: any): void {
+    const web3 = window.web3;
+
+    this.socialNetwork.methods.tipPost(id).send({ from: this.account , value: web3.utils.toWei('0.1', 'Ether')});
   }
 }

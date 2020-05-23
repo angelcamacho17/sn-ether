@@ -2,4 +2,39 @@
     margin: 16px;
     display: flex;
     flex-direction: column;
+    max-width: 480px;
+    width: 100%;
+
+    .post-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;    
+        padding: 16px 0;    
+    }
+
+    .post-content {
+        display: relative;
+        overflow-wrap: anywhere;
+    }
+
+    .post-footer {
+        @extend .post-header;
+        padding: 8px 0;
+        color: #6a0080;
+        justify-content: space-between;
+
+        .tip-btn {
+            display: flex;
+            justify-content: center;
+            width: 116px;
+            color: rgb(255, 255, 255);
+        }
+
+        .tip-amount {
+            display: flex;
+            flex-direction: row;
+            align-self: flex-end;
+        }
+
+    }
 }

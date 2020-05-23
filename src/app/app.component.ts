@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Web3 from 'web3';
 import { AppService } from './app.service';
 
-declare global {
-  interface Window {
-    ethereum: any;
-    web3: any;
-  }
-}
+
 
 @Component({
   selector: 'app-root',

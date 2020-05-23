@@ -1,11 +1,28 @@
 <mat-card class="post">
-    <mat-card-header>
+    <div class="mat-caption no-margin-btm post-header">
+        <img *ngIf="img" width=15 height=15 src="data:image/png;base64,{{img}}" >
         {{post?.author}}
-    </mat-card-header>
-    <mat-card-content>
+    </div>
+    <div class="mat-subheading-2 no-margin-btm post-content">
         {{post?.content}}
-    </mat-card-content>
-    <mat-card-footer>
-        {{post?.tipAmount}}
-    </mat-card-footer>
+    </div>
+    <div class="post-footer">
+        <button mat-raised-button 
+                color="primary" 
+                class="tip-btn" 
+                (click)="tipPost()">
+            Tip this post!
+        </button>
+        <div class="tip-amount">
+            <div class="mat-body-2 space-right no-margin-btm">
+                Tip amount:
+            </div>
+            <div class="mat-subheading-2 no-margin-btm post-tip">
+                {{post?.tipAmount}}
+                <span >
+                    Ether
+                </span>
+            </div>
+        </div>
+    </div>
 </mat-card>
