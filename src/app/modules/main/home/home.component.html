@@ -1,2 +1,5 @@
-<app-post-input class="post"></app-post-input>
-<app-post class="post" *ngFor="let post of apService.posts" [post]="post"></app-post>
+<div class="home-container">
+    <button mat-flat-button color="primary" style="margin-right: 16px;" (click)="createPublicPost()" >Public post</button>
+    <button mat-flat-button color="primary" >Private post</button>
+    <app-post class="post" *ngFor="let post of apService.posts" [post]="post"></app-post>
+</div>

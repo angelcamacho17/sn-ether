@@ -45,7 +45,7 @@ export class AppService {
 
   async loadPost() {
     const web3 = window.web3;
-    // Network ID
+    // Network ID9
     const networkId = await web3.eth.net.getId();
     const networkData = SocialNetwork.networks[networkId];
     if (networkData) {
@@ -53,26 +53,32 @@ export class AppService {
       this.socialNetwork = socialNetwork;
       const postCount = await socialNetwork.methods.postCount().call();
       this.postCount = postCount;
-      // Load Posts
+      // this.loadPosts(postCount, socialNetwork);
       for (let i = 1; i <= await postCount; i++) {
         // tslint:disable-next-line: no-shadowed-variable
         const post = await socialNetwork.methods.posts(i).call();
         this.posts = [...this.posts, post];
       }
-      // Sort posts. Show highest tipped posts first
-      this.posts = await this.posts.sort((a, b) => b.tipAmount - a.tipAmount );
-    } else {
-      window.alert('SocialNetwork contract not deployed to detected network.');
+      this.posts = this.posts.sort((a, b) => b.tipAmount - a.tipAmount);
+      } else {
+       window.alert('SocialNetwork contract not deployed to detected network.');
     }
   }
 
-  public createPost(content: string): void {
-    this.socialNetwork.methods.createPost(content).send({ from: this.account });
+  async loadPosts(postCount: number, socialNetwork: any) {
+    // Load Posts
   }
 
-  public tipPost(id: any): void {
+  async createPost(content: string, publicPost: boolean) {
+    const created = await this.socialNetwork.methods.createPost(content, publicPost).send({ from: this.account });
+    console.log(created);
+    if (created) {
+    }
+  }
+
+  public tipPost(id: any, tip: number): void {
     const web3 = window.web3;
 
-    this.socialNetwork.methods.tipPost(id).send({ from: this.account , value: web3.utils.toWei('0.1', 'Ether')});
+    this.socialNetwork.methods.tipPost(id).send({ from: this.account , value: web3.utils.toWei(tip.toString(), 'Ether')});
   }
 }

@@ -5,6 +5,9 @@ import { PostInputComponent } from './post-input/post-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { PostComponent } from './post/post.component';
+import { PublicPostComponent } from './public-post/public-post.component';
+import { PrivatePostComponent } from './private-post/private-post.component';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -12,7 +15,9 @@ import { PostComponent } from './post/post.component';
   declarations: [
     HeaderComponent,
     PostInputComponent,
-    PostComponent
+    PostComponent,
+    PublicPostComponent,
+    PrivatePostComponent
   ],
   imports: [
     CommonModule,

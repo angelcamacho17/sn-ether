@@ -4,6 +4,7 @@ import { HomeComponent } from './home.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { HomeService } from './home.service';
+import { MaterialModule } from '../../shared/material/material.module';
 
 
 
@@ -12,7 +13,8 @@ import { HomeService } from './home.service';
   imports: [
     CommonModule,
     RouterModule.forChild([{ path: '', component: HomeComponent }]),
-    SharedModule
+    SharedModule,
+    MaterialModule
   ],
   providers: [
     HomeService

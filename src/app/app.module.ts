@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './modules/shared/shared.module';
 import { AppService } from './app.service';
+import { MaterialModule } from './modules/shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AppService } from './app.service';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    MaterialModule
   ],
   providers: [
     AppService

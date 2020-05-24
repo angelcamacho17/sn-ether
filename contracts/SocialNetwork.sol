@@ -4,40 +4,46 @@ contract SocialNetwork {
     string public name;
     uint public postCount = 0;
     mapping(uint => Post) public posts;
+    Post public myPost;
 
     struct Post {
         uint id;
         string content;
         uint tipAmount;
         address payable author;
+        bool publicPost;
     }
 
     event PostCreated (
         uint id,
         string content,
         uint tipAmount,
-        address author
+        address author,
+        bool publicPost
     );
 
     event PostTipped (
         uint id,
         string content,
         uint tipAmount,
-        address author
+        address author,
+        bool publicPost
+
     );
+
 
     constructor() public {
         name = 'Angels Social Network';
     }
 
-    function createPost(string memory _content) public {
+    function createPost(string memory _content, bool _publicPost) public {
         require(bytes(_content).length>0,'the content should not be blank.');
         // Increment post count
         postCount ++;
         // Create the post
-        posts[postCount] = Post(postCount, _content, 0, msg.sender);
+        posts[postCount] = Post(postCount, _content, 0, msg.sender, _publicPost);
         // Emit post created
-        emit PostCreated(postCount, _content, 0, msg.sender);
+        emit PostCreated(postCount, _content, 0, msg.sender, _publicPost);
     }
 
     function tipPost(uint _id) public payable {
@@ -53,6 +59,6 @@ contract SocialNetwork {
         // Update the post
         posts[_id] = _post;
         // Trigger an event
-        emit PostTipped(postCount, _post.content, _post.tipAmount, _author);
+        emit PostTipped(postCount, _post.content, _post.tipAmount, _author, _post.publicPost);
     }
 }

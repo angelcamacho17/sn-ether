@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 
 @Component({
@@ -8,13 +8,15 @@ import { AppService } from 'src/app/app.service';
 })
 export class PostInputComponent implements OnInit {
 
+  @Input() publicPost = true;
+
   constructor(private _apService: AppService) { }
 
   ngOnInit(): void {
   }
 
   createPost(content: string): void {
-    this._apService.createPost(content);
+    this._apService.createPost(content, this.publicPost);
   }
 
 }

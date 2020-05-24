@@ -7,22 +7,34 @@
         {{post?.content}}
     </div>
     <div class="post-footer">
-        <button mat-raised-button 
+        <div>
+            <form class="tip-form">
+                    <mat-form-field class="tip-width">
+                        <input matInput [formControl]="tipControl" 
+                        class="tip-input"
+                        type="number"
+                        maxlength="19">
+                    <mat-placeholder class="tip-placeholder">0.1</mat-placeholder>
+                </mat-form-field>
+            </form>
+            <button mat-raised-button 
                 color="primary" 
                 class="tip-btn" 
-                (click)="tipPost()">
-            Tip this post!
-        </button>
-        <div class="tip-amount">
-            <div class="mat-body-2 space-right no-margin-btm">
-                Tip amount:
-            </div>
-            <div class="mat-subheading-2 no-margin-btm post-tip">
-                {{post?.tipAmount}}
-                <span >
-                    Ether
-                </span>
-            </div>
+                [disabled]="(tipControl.value === '' || tipControl.value === null)"
+                (click)="tipPost(tipControl.value)">
+                Tip this post!
+            </button>
         </div>
+    <div class="tip-amount">
+        <div class="mat-body-2 space-right no-margin-btm">
+            Tip amount:
+        </div>
+        <div class="mat-subheading-2 no-margin-btm post-tip">
+            {{post?.tipAmount}}
+            <span >
+                Ether
+            </span>
+        </div>
+    </div>
     </div>
 </mat-card>

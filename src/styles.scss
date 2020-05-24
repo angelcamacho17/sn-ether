@@ -114,6 +114,25 @@ body {
     letter-spacing: 0.25px !important;
     height: 24px;
     overflow-wrap: anywhere;
+    overflow: hidden;
+    padding: 16px 0;
+}
+
+.tip-input {
+  @extend .post-input;
+  width: 20px;
+}
+
+.tip-error {
+
+}
+
+.tip-placeholder {
+  @extend .tip-input;
+}
+
+.mat-dialog-container {
+  display: contents !important;
 }
 
 .disable-select {

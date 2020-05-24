@@ -1,15 +1,20 @@
 <mat-card class="card mat-elevation-z2">
-    <form style="height: 72px;">
-        <mat-form-field class="field">
-          <mat-label class="mat-subheading-1 no-margin-btm">What's in your mind?</mat-label>
-          <input class="mat-subheading-1 no-margin-btm post-input"
-                 matInput #message 
-                 #input
-                 maxlength="140" >
-          <mat-hint class="mat-caption" align="start"><strong>We are what we think</strong> </mat-hint>
-          <mat-hint class="mat-caption" align="end">{{message.value.length}} / 140</mat-hint>
-        </mat-form-field>
-      </form>
+    <form>
+      <mat-form-field class="field">
+        <mat-label class="mat-subheading-1 no-margin-btm">What's in your mind?</mat-label>
+          <textarea matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    #input
+                    class="mat-subheading-1 no-margin-btm post-input"
+                    maxlength="140"
+                    ></textarea>
+          </mat-form-field>
+        </form>
+        <mat-hint class="mat-caption" align="start"><strong>We are what we think</strong> </mat-hint>
+        <mat-hint class="mat-caption" align="end">{{input.value.length}} / 140</mat-hint>
       <button mat-raised-button color="primary" 
               class="post-btn" 
               [disabled]="input.value===''"
