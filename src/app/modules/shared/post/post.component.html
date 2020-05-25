@@ -1,13 +1,29 @@
-<mat-card class="post">
-    <div class="mat-caption no-margin-btm post-header">
-        <img *ngIf="img" width=15 height=15 src="data:image/png;base64,{{img}}" >
+<mat-card class="post mat-elevation-z3">
+    <div class="mat-caption no-margin-btm post-header" (click)="goToUsersPosts()">
+        <img *ngIf="img" 
+            width=15 
+            height=15 src="data:image/png;base64,{{img}}" 
+            style="border-radius: 50%">
         {{post?.author}}
     </div>
+    <mat-divider style="position: relative; padding-bottom: 16px;"></mat-divider>
     <div class="mat-subheading-2 no-margin-btm post-content">
         {{post?.content}}
     </div>
     <div class="post-footer">
-        <div>
+        <div class="tip-amount">
+            <div class="mat-body-2 no-margin-btm" style="margin-right: 8px;">
+                Tip amount:
+            </div>
+            <div class="mat-subheading-2 no-margin-btm post-tip">
+                {{post?.tipAmount}}
+                <span >
+                    Ether
+                </span>
+            </div>
+        </div>
+        <div style="display: flex;
+                    align-items: center;">
             <form class="tip-form">
                     <mat-form-field class="tip-width">
                         <input matInput [formControl]="tipControl" 
@@ -22,19 +38,8 @@
                 class="tip-btn" 
                 [disabled]="(tipControl.value === '' || tipControl.value === null)"
                 (click)="tipPost(tipControl.value)">
-                Tip this post!
+                Tip!
             </button>
         </div>
-    <div class="tip-amount">
-        <div class="mat-body-2 space-right no-margin-btm">
-            Tip amount:
-        </div>
-        <div class="mat-subheading-2 no-margin-btm post-tip">
-            {{post?.tipAmount}}
-            <span >
-                Ether
-            </span>
-        </div>
-    </div>
     </div>
 </mat-card>

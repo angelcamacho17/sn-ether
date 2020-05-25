@@ -19,11 +19,13 @@
             justify-content: space-evenly;
             flex-direction: row;
             align-items: center;
+            margin-bottom: 8px;
         }
 
         .balance {
             @extend .account;
             align-self: self-start;
+            margin-bottom: 0px;
         }
     }
 

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import SocialNetwork from '../../abis/SocialNetwork.json';
 import Web3 from 'web3';
+import { Observable, of } from 'rxjs';
 
 declare global {
   interface Window {
@@ -18,6 +19,9 @@ export class AppService {
   public posts = [];
   public account = '';
   public balance = 0;
+  public currentUserPosts = [];
+  public profileWatched = null;
+  @Output() profilePostsFetched$: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -44,6 +48,9 @@ export class AppService {
   }
 
   async loadPost() {
+    if (this.posts.length !== 0) {
+      return;
+    }
     const web3 = window.web3;
     // Network ID9
     const networkId = await web3.eth.net.getId();
@@ -51,7 +58,7 @@ export class AppService {
     if (networkData) {
       const socialNetwork = web3.eth.Contract(SocialNetwork.abi, networkData.address);
       this.socialNetwork = socialNetwork;
-      const postCount = await socialNetwork.methods.postCount().call();
+      const postCount = await socialNetwork.methods.records().call();
       this.postCount = postCount;
       // this.loadPosts(postCount, socialNetwork);
       for (let i = 1; i <= await postCount; i++) {
@@ -80,5 +87,26 @@ export class AppService {
     const web3 = window.web3;
 
     this.socialNetwork.methods.tipPost(id).send({ from: this.account , value: web3.utils.toWei(tip.toString(), 'Ether')});
+  }
+
+  public setProfileWatched(profile: any): void {
+    this.profileWatched = profile;
+  }
+
+  async getProfilePosts() {
+    this.currentUserPosts = [];
+    const web3 = window.web3;
+    // Network ID9
+    const networkId = await web3.eth.net.getId();
+    const networkData = SocialNetwork.networks[networkId];
+    const socialNetwork = web3.eth.Contract(SocialNetwork.abi, networkData.address);
+    const posts = await socialNetwork.methods.postPersonalCounter(this.profileWatched).call();
+
+    for (let i = 1; i <= await posts; i++) {
+      // tslint:disable-next-line: no-shadowed-variable
+      const post = await socialNetwork.methods.personalPosts(this.profileWatched, i).call();
+      this.currentUserPosts = [...this.currentUserPosts, post];
+    }
+    this.profilePostsFetched$.next(this.currentUserPosts);
   }
 }

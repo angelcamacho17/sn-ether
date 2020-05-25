@@ -13,12 +13,23 @@
                     ></textarea>
           </mat-form-field>
         </form>
-        <mat-hint class="mat-caption" align="start"><strong>We are what we think</strong> </mat-hint>
-        <mat-hint class="mat-caption" align="end">{{input.value.length}} / 140</mat-hint>
-      <button mat-raised-button color="primary" 
-              class="post-btn" 
-              [disabled]="input.value===''"
-              (click)="createPost(input.value)">
-          Post!
-      </button>
+        <section class="privacy">
+          <label class="mat-subheading-1 no-margin-btm">This post would be for:</label>
+          <mat-radio-group color="primary" class="radio-group" [(ngModel)]="privacy">
+            <mat-radio-button class="mat-caption no-margin-btm" style="margin-right: 16px;" value="public">Everyone</mat-radio-button>
+            <mat-radio-button class="mat-caption no-margin-btm" value="private">Just my followers</mat-radio-button>
+          </mat-radio-group>
+        </section>
+        <div class="footer">
+          <div class="caption">
+            <mat-hint class="mat-caption" align="start"><strong>We are what we think</strong> </mat-hint>
+            <mat-hint class="mat-caption" align="end">{{input.value.length}} / 140</mat-hint>
+          </div>
+          <button mat-raised-button color="primary" 
+                  class="post-btn" 
+                  [disabled]="input.value===''"
+                  (click)="createPost(input.value)">
+              Post!
+          </button>
+        </div>
 </mat-card>

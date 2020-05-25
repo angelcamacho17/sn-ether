@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UserGuard } from './modules/main/user/user.guard';
 
 
 const routes: Routes = [
@@ -7,6 +8,12 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./modules/main/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () =>
+      import('./modules/main/user/user.module').then(m => m.UserModule),
+    canActivate: [UserGuard]
   },
   {
     path: 'contact',

@@ -12,6 +12,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -28,7 +29,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatAutocompleteModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatRadioModule
   ],
   exports: [
     MatButtonModule,
@@ -42,7 +44,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatAutocompleteModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule { }

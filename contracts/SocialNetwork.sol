@@ -2,9 +2,11 @@ pragma solidity ^0.5.0;
 
 contract SocialNetwork {
     string public name;
-    uint public postCount = 0;
+    uint public records = 0;
     mapping(uint => Post) public posts;
+    mapping(address => mapping(uint => Post)) public personalPosts;
     Post public myPost;
+    mapping(address => uint) public postPersonalCounter;
 
     struct Post {
         uint id;
@@ -31,7 +33,6 @@ contract SocialNetwork {
 
     );
 
-
     constructor() public {
         name = 'Angels Social Network';
     }
@@ -39,15 +40,19 @@ contract SocialNetwork {
     function createPost(string memory _content, bool _publicPost) public {
         require(bytes(_content).length>0,'the content should not be blank.');
         // Increment post count
-        postCount ++;
+        records ++;
         // Create the post
-        posts[postCount] = Post(postCount, _content, 0, msg.sender, _publicPost);
+        Post memory _post = Post(records, _content, 0, msg.sender, _publicPost);
+        posts[records] = _post;
+        // Create the post for each author
+        postPersonalCounter[msg.sender] = postPersonalCounter[msg.sender] + 1;
+        personalPosts[msg.sender][postPersonalCounter[msg.sender]] = Post(records, _content, 0, msg.sender, _publicPost);
         // Emit post created
-        emit PostCreated(postCount, _content, 0, msg.sender, _publicPost);
+        emit PostCreated(records, _content, 0, msg.sender, _publicPost);
     }
 
     function tipPost(uint _id) public payable {
-        require(_id > 0 && _id <= postCount, 'The post must exist.');
+        require(_id > 0 && _id <= records, 'The post must exist.');
         // Fetch the post to tip
         Post memory _post = posts[_id];
         // Fetch the author
@@ -59,6 +64,6 @@ contract SocialNetwork {
         // Update the post
         posts[_id] = _post;
         // Trigger an event
-        emit PostTipped(postCount, _post.content, _post.tipAmount, _author, _post.publicPost);
+        emit PostTipped(records, _post.content, _post.tipAmount, _author, _post.publicPost);
     }
 }

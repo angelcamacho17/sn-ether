@@ -31,12 +31,12 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
         before(async() => {
             result = await socialNetwork.createPost('This is my first post', true, {from: author});
             second = await socialNetwork.createPost('This is my second post', true, {from: author});
-            third = await socialNetwork.createPost('This is my third post', true, {from: author});
+            third = await socialNetwork.createPost('This is my third post', true, {from: tipper});
 
-            postCount = await socialNetwork.postCount();
+            postCount = await socialNetwork.records();
         })
 
-        it('creates posts', async() => {
+        it('creates public posts', async() => {
             // SUCCESS
             assert.equal(3, postCount);
             const id = await third.logs[0].args.id
@@ -47,9 +47,20 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
             assert.equal(id.toNumber(), postCount, 'id is correct');
             assert.equal(content, 'This is my third post', 'content is correct');
             assert.equal(tip.toNumber(), 0, 'tip is correct');
-            assert.equal(x, author, 'author is correct');
+            assert.equal(x, tipper, 'author is correct');
 
             await socialNetwork.createPost('', true, {from: author}).should.be.rejected;
+        })
+
+        it('list addresses posts', async() => {
+            const post = await socialNetwork.personalPosts(tipper, 1);
+            const personalCounter = await socialNetwork.postPersonalCounter(tipper);
+            console.log(post.id.toNumber());
+            // SUCCESS
+            // assert.equal(post.id.toNumber(), personalCounter.toNumber(), 'id is correct');
+            // assert.equal(post.content, 'This is my third post', 'content is correct');
+            // assert.equal(post.tipAmount.toNumber(), 0, 'tip is correct');
+            // assert.equal(post.author, tipper, 'author is correct');
         })
 
         it('list posts', async() => {
@@ -58,7 +69,7 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
             assert.equal(post.id.toNumber(), postCount.toNumber(), 'id is correct');
             assert.equal(post.content, 'This is my third post', 'content is correct');
             assert.equal(post.tipAmount.toNumber(), 0, 'tip is correct');
-            assert.equal(post.author, author, 'author is correct');
+            assert.equal(post.author, tipper, 'author is correct');
         })
 
         it('allow user to tip posts', async() => {

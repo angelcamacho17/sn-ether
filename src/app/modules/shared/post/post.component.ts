@@ -1,27 +1,32 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core';
 import Identicon from 'identicon.js';
 import { AppService } from 'src/app/app.service';
 import { FormControl, Validators } from '@angular/forms';
 import { isNumber } from 'util';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent implements OnInit, OnChanges {
+export class PostComponent implements OnInit,  OnChanges {
 
   @Input() post: any;
   public img = null;
   public tipAmount = null;
   public tipControl = null;
   public noValidTip = null;
+  // tslint:disable-next-line: variable-name
+  private _subscriptions = new Subscription();
 
   constructor(private _apService: AppService,
-              private _snackBar: MatSnackBar) {
-      this.tipControl = new FormControl('', [
-    ]);
+              private _snackBar: MatSnackBar,
+              private _router: Router) {
+    this.tipControl = new FormControl('', [
+       ]);
   }
 
   ngOnInit(): void {
@@ -50,5 +55,10 @@ export class PostComponent implements OnInit, OnChanges {
       });
       this._apService.tipPost(this.post.id, tip);
     }
+  }
+
+  public goToUsersPosts(): void {
+    this._apService.setProfileWatched(this.post.author);
+    this._apService.getProfilePosts();
   }
 }

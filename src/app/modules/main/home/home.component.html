@@ -1,5 +1,12 @@
-<div class="home-container">
-    <button mat-flat-button color="primary" style="margin-right: 16px;" (click)="createPublicPost()" >Public post</button>
-    <button mat-flat-button color="primary" >Private post</button>
-    <app-post class="post" *ngFor="let post of apService.posts" [post]="post"></app-post>
+<div class="container">
+    <mat-card class="add-card mat-elevation-z4">
+        <button mat-mini-fab color="primary" style="margin-right: 16px;" (click)="createPost()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <div class="mat-subheading-2 no-margin-btm">
+            Add a new post!
+        </div>
+    </mat-card>
+    <!-- <button mat-flat-button color="primary" (click)="createPost(false)">Private post</button> -->
+    <app-post class="post" *ngFor="let post of appService.posts" [post]="post"></app-post>
 </div>
