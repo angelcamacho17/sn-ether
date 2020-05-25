@@ -22,8 +22,11 @@ export class PostComponent implements OnInit,  OnChanges {
   // tslint:disable-next-line: variable-name
   private _subscriptions = new Subscription();
 
+  // tslint:disable-next-line: variable-name
   constructor(private _apService: AppService,
+              // tslint:disable-next-line: variable-name
               private _snackBar: MatSnackBar,
+              // tslint:disable-next-line: variable-name
               private _router: Router) {
     this.tipControl = new FormControl('', [
        ]);
@@ -34,12 +37,14 @@ export class PostComponent implements OnInit,  OnChanges {
 
   ngOnChanges(value): void {
     const web3 = window.web3;
-
     if (value && value.post && value.post.currentValue) {
       this.post.author = value.post.currentValue.author;
       this.img = new Identicon(this.post.author, 420).toString();
-      // tslint:disable-next-line: no-bitwise
-      this.post.tipAmount = value.post.currentValue.tipAmount.toString() / (1000000000000000000);
+      if (!this.post?.tipCalculated) {
+        // tslint:disable-next-line: no-bitwise
+        this.post.tipAmount = value.post.currentValue.tipAmount / (1000000000000000000);
+        this.post.tipCalculated = true;
+      }
     }
   }
 
@@ -58,7 +63,12 @@ export class PostComponent implements OnInit,  OnChanges {
   }
 
   public goToUsersPosts(): void {
-    this._apService.setProfileWatched(this.post.author);
+    // Set current user to watch
+    this._apService.setProfileWatched(this.post.author, this.img);
+    // Get post of the current user
     this._apService.getProfilePosts();
+    // Go to user profile page
+    this._router.navigate(['/user']);
+
   }
 }

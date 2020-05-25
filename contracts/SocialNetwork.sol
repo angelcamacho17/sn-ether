@@ -10,6 +10,7 @@ contract SocialNetwork {
 
     struct Post {
         uint id;
+        uint personalId;
         string content;
         uint tipAmount;
         address payable author;
@@ -18,6 +19,7 @@ contract SocialNetwork {
 
     event PostCreated (
         uint id,
+        uint personalId,
         string content,
         uint tipAmount,
         address author,
@@ -26,6 +28,7 @@ contract SocialNetwork {
 
     event PostTipped (
         uint id,
+        uint personalId,
         string content,
         uint tipAmount,
         address author,
@@ -41,14 +44,15 @@ contract SocialNetwork {
         require(bytes(_content).length>0,'the content should not be blank.');
         // Increment post count
         records ++;
+        // Increment personal counters
+        postPersonalCounter[msg.sender] = postPersonalCounter[msg.sender] + 1;
         // Create the post
-        Post memory _post = Post(records, _content, 0, msg.sender, _publicPost);
+        Post memory _post = Post(records, postPersonalCounter[msg.sender], _content, 0, msg.sender, _publicPost);
         posts[records] = _post;
         // Create the post for each author
-        postPersonalCounter[msg.sender] = postPersonalCounter[msg.sender] + 1;
-        personalPosts[msg.sender][postPersonalCounter[msg.sender]] = Post(records, _content, 0, msg.sender, _publicPost);
+        personalPosts[msg.sender][postPersonalCounter[msg.sender]] = posts[records];
         // Emit post created
-        emit PostCreated(records, _content, 0, msg.sender, _publicPost);
+        emit PostCreated(records, postPersonalCounter[msg.sender], _content, 0, msg.sender, _publicPost);
     }
 
     function tipPost(uint _id) public payable {
@@ -61,9 +65,10 @@ contract SocialNetwork {
         address(_author).transfer(msg.value);
         // Increment amout of tip
         _post.tipAmount = _post.tipAmount + msg.value;
-        // Update the post
+        // Update the post for public and each author
         posts[_id] = _post;
+        personalPosts[msg.sender][_post.personalId] = posts[records];
         // Trigger an event
-        emit PostTipped(records, _post.content, _post.tipAmount, _author, _post.publicPost);
+        emit PostTipped(records, _post.personalId, _post.content, _post.tipAmount, _author, _post.publicPost);
     }
 }

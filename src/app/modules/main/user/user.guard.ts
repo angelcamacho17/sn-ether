@@ -14,7 +14,7 @@ export class UserGuard implements CanActivate {
 
     canActivate(): Observable<boolean | UrlTree> {
       if (this._appService.profileWatched === null) {
-      this._router.navigate(['/home']);
+        this._router.navigate(['/home']);
       }
 
       return of(this._appService.profileWatched !== null);

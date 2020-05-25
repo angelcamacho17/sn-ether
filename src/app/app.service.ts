@@ -21,6 +21,7 @@ export class AppService {
   public balance = 0;
   public currentUserPosts = [];
   public profileWatched = null;
+  public profileImg = null;
   @Output() profilePostsFetched$: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
@@ -66,7 +67,7 @@ export class AppService {
         const post = await socialNetwork.methods.posts(i).call();
         this.posts = [...this.posts, post];
       }
-      this.posts = this.posts.sort((a, b) => b.tipAmount - a.tipAmount);
+      // this.posts = this.posts.sort((a, b) => b.tipAmount - a.tipAmount);
       } else {
        window.alert('SocialNetwork contract not deployed to detected network.');
     }
@@ -89,10 +90,12 @@ export class AppService {
     this.socialNetwork.methods.tipPost(id).send({ from: this.account , value: web3.utils.toWei(tip.toString(), 'Ether')});
   }
 
-  public setProfileWatched(profile: any): void {
+  public setProfileWatched(profile: any, img: any): void {
+    this.profileImg = img;
     this.profileWatched = profile;
   }
 
+  // Get posts of the user profile to watch
   async getProfilePosts() {
     this.currentUserPosts = [];
     const web3 = window.web3;
@@ -107,6 +110,8 @@ export class AppService {
       const post = await socialNetwork.methods.personalPosts(this.profileWatched, i).call();
       this.currentUserPosts = [...this.currentUserPosts, post];
     }
+    // Emit event after fetching all the posts to navigate to the user's profile.
+    // This event is listened by the home component.
     this.profilePostsFetched$.next(this.currentUserPosts);
   }
 }

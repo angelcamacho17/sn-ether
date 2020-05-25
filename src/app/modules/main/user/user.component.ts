@@ -1,18 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
 
   public posts = [];
-  constructor(public appService: AppService) {
-    // console.log(this.appService.currentUserPosts);
+  // tslint:disable-next-line: variable-name
+  private _subscriptions = new Subscription();
+  @Input() user: any;
+  @Input() img: any;
+
+  constructor(public appService: AppService,
+              // tslint:disable-next-line: variable-name
+              private _router: Router) {
+    this._subscriptions.add(this.appService.profilePostsFetched$.subscribe((data) => {
+      this.user = this.appService.profileWatched;
+      this.img = this.appService.profileImg;
+    }));
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    if (this._subscriptions) {
+      this._subscriptions.unsubscribe();
+    }
   }
 }
