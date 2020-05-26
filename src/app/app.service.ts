@@ -137,4 +137,10 @@ export class AppService {
     this.notFollower = post;
     console.log(this.notFollower);
   }
+
+  async follow() {
+    const web3 = window.web3;
+    this.socialNetwork.methods.followAccount(this.profileWatched).send( {from: this.account, value: web3.utils.toWei('1', 'Ether')});
+
+  }
 }

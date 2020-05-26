@@ -99,6 +99,9 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
 
             const expectedBalance = oldAuthorBalance.add(tipAmount);
 
+            const post = await socialNetwork.personalPosts(author, 2);
+            assert.equal(post.tipAmount, web3.utils.toWei('3', 'Ether'), 'personal tip is correct')
+
             // assert.equal(newAuthorBalance.toString(), expectedBalance.toString(), 'no equal balances');
 
             // FAILURE: Tries to tip a post that does not exits

@@ -44,13 +44,15 @@ export class UserComponent implements OnInit, OnDestroy {
     if (this.notShowWarn) {
       return;
     }
-    const dialogRef = this.dialog.open(NotFollowerComponent, {
-      width: '480px',
-      height: '448px'
-    });
-
-    dialogRef.afterClosed().subscribe(data => {
-      this.notShowWarn = true;
-    });
+    if (!this.appService.notFollower) {
+      const dialogRef = this.dialog.open(NotFollowerComponent, {
+        width: '480px',
+        height: '448px'
+      });
+  
+      dialogRef.afterClosed().subscribe(data => {
+        this.notShowWarn = true;
+      });
+    }
   }
 }

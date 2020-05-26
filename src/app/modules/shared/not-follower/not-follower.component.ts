@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-not-follower',
@@ -8,7 +9,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class NotFollowerComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<NotFollowerComponent>) { }
+  constructor(public dialogRef: MatDialogRef<NotFollowerComponent>,
+              private _appService: AppService) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +21,10 @@ export class NotFollowerComponent implements OnInit {
 
   onClick(result: string): void {
     this.dialogRef.close({result});
+  }
+
+  public follow(): void {
+    this._appService.follow();
   }
 
 }

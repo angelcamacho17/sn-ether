@@ -74,7 +74,7 @@ contract SocialNetwork {
         _post.tipAmount = _post.tipAmount + msg.value;
         // Update the post for public and each author
         posts[_id] = _post;
-        personalPosts[msg.sender][_post.personalId] = posts[records];
+        personalPosts[_post.author][_post.personalId] = _post;
         // Trigger an event
         emit PostTipped(records, _post.personalId, _post.content, _post.tipAmount, _author, _post.publicPost);
     }
