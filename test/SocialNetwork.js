@@ -26,17 +26,17 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
     })
 
     describe('post', async() => {
-        let result, second, third, postCount;
+        let first, second, third, postCount;
 
         before(async() => {
-            result = await socialNetwork.createPost('This is my first post', true, {from: author});
+            first = await socialNetwork.createPost('This is my first post', true, {from: author});
             second = await socialNetwork.createPost('This is my second post', true, {from: author});
             third = await socialNetwork.createPost('This is my third post', true, {from: tipper});
 
             postCount = await socialNetwork.records();
         })
 
-        it('creates public posts', async() => {
+        it('creates public and personal posts', async() => {
             // SUCCESS
             assert.equal(3, postCount);
             const id = await third.logs[0].args.id
@@ -52,15 +52,13 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
             await socialNetwork.createPost('', true, {from: author}).should.be.rejected;
         })
 
-        it('list addresses posts', async() => {
+        it('list personal posts', async() => {
             const post = await socialNetwork.personalPosts(tipper, 1);
             const personalCounter = await socialNetwork.postPersonalCounter(tipper);
-            console.log(post.id.toNumber());
             // SUCCESS
-            // assert.equal(post.id.toNumber(), personalCounter.toNumber(), 'id is correct');
-            // assert.equal(post.content, 'This is my third post', 'content is correct');
-            // assert.equal(post.tipAmount.toNumber(), 0, 'tip is correct');
-            // assert.equal(post.author, tipper, 'author is correct');
+            assert.equal(post.content, 'This is my third post', 'content is correct');
+            assert.equal(post.tipAmount.toNumber(), 0, 'tip is correct');
+            assert.equal(post.author, tipper, 'author is correct');
         })
 
         it('list posts', async() => {
@@ -78,14 +76,14 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
             oldAuthorBalance = await web3.eth.getBalance(author)
             oldAuthorBalance = new web3.utils.BN(oldAuthorBalance)
 
-            result = await socialNetwork.tipPost(1, {from: tipper, value: web3.utils.toWei('2', 'Ether') })
+            first = await socialNetwork.tipPost(1, {from: tipper, value: web3.utils.toWei('2', 'Ether') })
             second = await socialNetwork.tipPost(2, {from: tipper, value: web3.utils.toWei('3', 'Ether') })
             // SUCCESS
-            const first = result.logs[0].args
-            assert.equal(first.id.toNumber(), postCount, 'id is correct')
-            assert.equal(first.content, 'This is my first post', 'content is correct')
-            assert.equal(first.tipAmount, web3.utils.toWei('2', 'Ether'), 'tip is correct')
-            assert.equal(first.author, author, 'author is correct');
+            const fst = first.logs[0].args
+            assert.equal(fst.id.toNumber(), postCount, 'id is correct')
+            assert.equal(fst.content, 'This is my first post', 'content is correct')
+            assert.equal(fst.tipAmount, web3.utils.toWei('2', 'Ether'), 'tip is correct')
+            assert.equal(fst.author, author, 'author is correct');
 
             const sec = second.logs[0].args
             assert.equal(sec.tipAmount, web3.utils.toWei('3', 'Ether'), 'tip is correct')
@@ -108,5 +106,19 @@ contract('SocialNetwork', ([deployer, author, tipper]) => {
             await socialNetwork.tipPost(99, {from: tipper, value: web3.utils.toWei('1', 'Ether') }).should.be.rejected;
         })
 
+    })
+
+    describe('following', async() => {
+        let postMaker;
+        
+        it('account followed', async() => {
+            postMaker = await socialNetwork.followAccount(author, {from: tipper, value: web3.utils.toWei('1.5', 'Ether')})
+
+            // SUCCESS
+            const result = postMaker.logs[0].args
+            assert.equal(author, result.postMaker);
+            assert.equal(tipper, result.follower);
+            assert.equal(web3.utils.toWei('1.5', 'Ether'), result.amountPaid);
+        })
     })
 })

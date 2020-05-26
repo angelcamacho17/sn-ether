@@ -1,6 +1,4 @@
 <div class="container" >
-    <div class="profile">
-    </div>
     <img *ngIf="img" 
               width=150
               height=150
@@ -9,11 +7,31 @@
     <div class="mat-subheading-2 no-margin-btm">
         {{user}}
     </div>
-    <mat-tab-group class="profile-tab-group">
+    <mat-tab-group dynamicHeight 
+                   class="profile-tab-group" 
+                   (selectedTabChange)="checkFollower($event)"
+                   mat-align-tabs="center">
         <mat-tab label="Public posts">
-            <app-post class="post" *ngFor="let post of appService.currentUserPosts" [post]="post"></app-post> 
+            <app-post class="post" *ngFor="let post of appService.currentUserPublicPosts" [post]="post"></app-post> 
+            <div *ngIf="appService.currentUserPublicPosts.length === 0" 
+                 class="mat-subheading-2 no-margin-btm no-data">
+                No public posts.
+            </div>
         </mat-tab>
-        <mat-tab label="Private posts"> Content 2 </mat-tab>
+        <mat-tab label="Private posts">
+            <div *ngIf="!this.appService.notFollower" class="not-allowed">
+                <div class="mat-subheading-2 no-margin-btm no-data">
+                Not a follower yet!
+                </div>
+            </div>
+            <div *ngIf="this.appService.notFollower">
+                <app-post class="post" *ngFor="let post of appService.currentUserPrivatePosts" [post]="post"></app-post>
+                <div *ngIf="appService.currentUserPrivatePosts.length === 0" 
+                      class="mat-subheading-2 no-margin-btm no-data">
+                    No private posts.
+                </div>
+            </div>
+        </mat-tab>
     </mat-tab-group>
     <!-- <app-post class="post" *ngFor="let post of appService.currentUserPosts" [post]="post"></app-post> -->
 </div>

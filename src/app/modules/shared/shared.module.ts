@@ -5,12 +5,14 @@ import { PostInputComponent } from './post-input/post-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { PostComponent } from './post/post.component';
+import { NotFollowerComponent } from './not-follower/not-follower.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     PostInputComponent,
-    PostComponent
+    PostComponent,
+    NotFollowerComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,9 @@ import { PostComponent } from './post/post.component';
   exports: [
     HeaderComponent,
     PostInputComponent,
-    PostComponent
+    PostComponent,
+    NotFollowerComponent
+
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

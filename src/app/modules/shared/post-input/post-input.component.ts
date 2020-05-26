@@ -15,6 +15,7 @@ export class PostInputComponent implements OnInit {
   privacy: 'public' | 'private' = 'public';
   constructor(public dialogRef: MatDialogRef<PostInputComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              // tslint:disable-next-line: variable-name
               private _apService: AppService) {
 
   }

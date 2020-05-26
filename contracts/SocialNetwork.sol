@@ -5,6 +5,7 @@ contract SocialNetwork {
     uint public records = 0;
     mapping(uint => Post) public posts;
     mapping(address => mapping(uint => Post)) public personalPosts;
+    mapping(address => mapping(address => bool)) public followers;
     Post public myPost;
     mapping(address => uint) public postPersonalCounter;
 
@@ -16,6 +17,12 @@ contract SocialNetwork {
         address payable author;
         bool publicPost;
     }
+
+    event AccountFollowed(
+        address postMaker,
+        address follower,
+        uint amountPaid
+    );
 
     event PostCreated (
         uint id,
@@ -61,7 +68,7 @@ contract SocialNetwork {
         Post memory _post = posts[_id];
         // Fetch the author
         address payable _author = _post.author;
-        // Pay the author by sendin them ether
+        // Pay the author by sending them ether
         address(_author).transfer(msg.value);
         // Increment amout of tip
         _post.tipAmount = _post.tipAmount + msg.value;
@@ -71,4 +78,16 @@ contract SocialNetwork {
         // Trigger an event
         emit PostTipped(records, _post.personalId, _post.content, _post.tipAmount, _author, _post.publicPost);
     }
+
+    function followAccount(address payable _postMaker) public payable {
+        require(msg.value >= 1000000000000000000, 'must pay more than one ether to subscribe');
+        // Fetch the author
+        address payable _author = _postMaker;
+        // Pay the author by sending them ether
+        address(_author).transfer(msg.value);
+        followers[_author][msg.sender] = true;
+        // Trigger an event
+        emit AccountFollowed(_author, msg.sender, msg.value);
+    }
+
 }

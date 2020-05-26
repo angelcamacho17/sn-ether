@@ -1,0 +1,22 @@
+.not-follower {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 8px;
+
+    .text {
+        margin-bottom: 8px;
+    }
+
+    .not-flw-btns {
+        display: flex;
+        flex-direction: row;
+        padding: 8px;
+        justify-content: flex-end;
+
+        .btn {
+            width: 102px;
+        }
+    }
+}

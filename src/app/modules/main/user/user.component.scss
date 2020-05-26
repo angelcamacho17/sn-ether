@@ -2,19 +2,11 @@
     padding: 0;
     align-items: center;
 
-    .profile {
-        display: flex;
-        flex-direction: column;
-        height: 176px;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.1);
-        align-items: center;
-        margin-bottom: -75px;
-    }
     .profile-img {
         border-radius: 50%;
         border: 1px solid rgba(0,0,0,0.6);
         margin-bottom: 16px;
+        margin-top: 18px;
     }
 
     .profile-tab-group {
@@ -23,4 +15,12 @@
         width: 100%;
         align-items: center;
     }
+
+    .no-data {
+        width: 400px;
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+    }
+
 }

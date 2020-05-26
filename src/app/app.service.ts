@@ -19,7 +19,9 @@ export class AppService {
   public posts = [];
   public account = '';
   public balance = 0;
-  public currentUserPosts = [];
+  public currentUserPublicPosts = [];
+  public currentUserPrivatePosts = [];
+  public notFollower;
   public profileWatched = null;
   public profileImg = null;
   @Output() profilePostsFetched$: EventEmitter<any> = new EventEmitter();
@@ -33,7 +35,7 @@ export class AppService {
     } else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider);
     } else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
   }
 
@@ -97,7 +99,8 @@ export class AppService {
 
   // Get posts of the user profile to watch
   async getProfilePosts() {
-    this.currentUserPosts = [];
+    this.currentUserPublicPosts = [];
+    this.currentUserPrivatePosts = [];
     const web3 = window.web3;
     // Network ID9
     const networkId = await web3.eth.net.getId();
@@ -108,10 +111,30 @@ export class AppService {
     for (let i = 1; i <= await posts; i++) {
       // tslint:disable-next-line: no-shadowed-variable
       const post = await socialNetwork.methods.personalPosts(this.profileWatched, i).call();
-      this.currentUserPosts = [...this.currentUserPosts, post];
+      if (post.publicPost) {
+        this.currentUserPublicPosts = [...this.currentUserPublicPosts, post];
+      } else {
+        this.currentUserPrivatePosts = [...this.currentUserPrivatePosts, post];
+      }
     }
     // Emit event after fetching all the posts to navigate to the user's profile.
     // This event is listened by the home component.
-    this.profilePostsFetched$.next(this.currentUserPosts);
+    const result = {
+      publics: this.currentUserPublicPosts,
+      privates:  this.currentUserPrivatePosts
+    };
+    this.checkIfFollower();
+    this.profilePostsFetched$.next(result);
+  }
+
+  async checkIfFollower() {
+    const web3 = window.web3;
+    // Network ID9
+    const networkId = await web3.eth.net.getId();
+    const networkData = SocialNetwork.networks[networkId];
+    const socialNetwork = web3.eth.Contract(SocialNetwork.abi, networkData.address);
+    const post = await socialNetwork.methods.followers(this.profileWatched, this.account).call();
+    this.notFollower = post;
+    console.log(this.notFollower);
   }
 }

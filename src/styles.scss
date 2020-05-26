@@ -71,6 +71,10 @@ body {
   font-size: 8px;
 }
 
+.mat-button-focus-overlay {
+  background-color: transparent!important;
+}
+
 .container {
   padding: 16px 32px;
   display: flex;
@@ -81,7 +85,11 @@ body {
     justify-content: center;
     width: 100%;
     height: fit-content;
+  }
 }
+
+.mat-tab-header {
+  width: 100%;
 }
 
 .main-content {
