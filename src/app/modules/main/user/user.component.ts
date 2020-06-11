@@ -55,4 +55,8 @@ export class UserComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  public follow(): void {
+    this.appService.follow();
+  }
 }

@@ -4,7 +4,7 @@
               height=150
               src="data:image/png;base64,{{img}}" 
               class="profile-img">
-    <div class="mat-subheading-2 no-margin-btm">
+    <div class="mat-subheading-2 no-margin-btm text-truncate">
         {{user}}
     </div>
     <mat-tab-group dynamicHeight 
@@ -23,6 +23,13 @@
                 <div class="mat-subheading-2 no-margin-btm no-data">
                 Not a follower yet!
                 </div>
+                <button mat-flat-button 
+                        class="btn"
+                        (click)="follow()"
+                        color="primary" 
+                        style="color: white;">
+                    Let's do it!
+                </button>
             </div>
             <div *ngIf="this.appService.notFollower">
                 <app-post class="post" *ngFor="let post of appService.currentUserPrivatePosts" [post]="post"></app-post>

@@ -109,9 +109,7 @@ export class AppService {
     this.currentUserPrivatePosts = [];
     const web3 = window.web3;
     // Network ID9
-    const networkId = await web3.eth.net.getId();
-    const networkData = SocialNetwork.networks[networkId];
-    const socialNetwork = web3.eth.Contract(SocialNetwork.abi, networkData.address);
+    const socialNetwork = web3.eth.Contract(SocialNetwork.abi, '0xb6ff7F9249F3B3A3eDd715E649b6eE96FaEeBcE1');
     const posts = await socialNetwork.methods.postPersonalCounter(this.profileWatched).call();
 
     for (let i = 1; i <= await posts; i++) {
@@ -136,9 +134,7 @@ export class AppService {
   async checkIfFollower() {
     const web3 = window.web3;
     // Network ID9
-    const networkId = await web3.eth.net.getId();
-    const networkData = SocialNetwork.networks[networkId];
-    const socialNetwork = web3.eth.Contract(SocialNetwork.abi, networkData.address);
+    const socialNetwork = web3.eth.Contract(SocialNetwork.abi, '0xb6ff7F9249F3B3A3eDd715E649b6eE96FaEeBcE1');
     const post = await socialNetwork.methods.followers(this.profileWatched, this.account).call();
     this.notFollower = post;
     console.log(this.notFollower);

@@ -19,8 +19,8 @@ export class NotFollowerComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onClick(result: string): void {
-    this.dialogRef.close({result});
+  onClick(): void {
+    this.dialogRef.close();
   }
 
   public follow(): void {
