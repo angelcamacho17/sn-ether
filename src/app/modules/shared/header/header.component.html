@@ -1,5 +1,6 @@
 <mat-toolbar color="primary" class="header mat-elevation-z4">
-    <div class="mat-headline no-margin-btm">Twitther</div>
+    <div class="mat-headline no-margin-btm" style="display: flex;
+    flex: 1 1 100%;">Twitther</div>
     <div class="account-info">
         <div class="account">
             <img *ngIf="img" 
@@ -8,14 +9,15 @@
                   src="data:image/png;base64,{{img}}" 
                   class="space-right"
                   style="border-radius: 50%">
-            <div class="mat-body-1 no-margin-btm">
+            <div class="mat-body-1 no-margin-btm text-truncate">
                 {{account}}
             </div>
         </div>
         <div class="balance">
-            <div style="display: flex;">
-                <div class="mat-body-1 space-right no-margin-btm ">{{balance}}</div>
-                <div class="mat-body-1 no-margin-btm ">
+            <div style="display: flex;
+                        text-align-last: end;">
+                <div class="mat-body-1 space-right no-margin-btm text-truncate">{{balance}}</div>
+                <div class="mat-body-1 no-margin-btm text-truncate">
                     Ether
                 </div>
             </div>

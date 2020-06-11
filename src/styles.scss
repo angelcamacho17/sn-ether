@@ -88,6 +88,13 @@ body {
   }
 }
 
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
 .mat-tab-header {
   width: 100%;
 }
