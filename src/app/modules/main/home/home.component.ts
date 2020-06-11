@@ -24,6 +24,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._subscriptions.add(this.appService.profilePostsFetched$.subscribe(() => {
       this._router.navigate(['/user']);
     }));
+
+    this.appService.posted.subscribe(() => {
+      this.dialog.closeAll();
+    });
   }
 
   ngOnDestroy(): void {

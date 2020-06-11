@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import Web3 from 'web3';
 import { AppService } from './app.service';
 
 
@@ -10,7 +9,7 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  
+
   constructor(public apService: AppService) {
 
   }

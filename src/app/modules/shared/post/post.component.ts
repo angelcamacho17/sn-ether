@@ -51,12 +51,12 @@ export class PostComponent implements OnInit,  OnChanges {
   public tipPost(tip): void {
     if (!String(tip).match(new RegExp(/^[0-9]*\.?[0-9]*$/g))) {
       this._snackBar.open('Your tip should be only numbers!', 'Dismiss', {
-        duration: 3000,
+        duration: 5000,
       });
       return;
     } else {
       this._snackBar.open('Your tip has been send!', 'Dismiss', {
-        duration: 3000,
+        duration: 5000,
       });
       this._apService.tipPost(this.post.id, tip);
     }

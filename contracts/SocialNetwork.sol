@@ -80,7 +80,7 @@ contract SocialNetwork {
     }
 
     function followAccount(address payable _postMaker) public payable {
-        require(msg.value >= 1000000000000000000, 'must pay more than one ether to subscribe');
+        require(msg.value >= 1, 'must pay more than one ether to subscribe');
         // Fetch the author
         address payable _author = _postMaker;
         // Pay the author by sending them ether

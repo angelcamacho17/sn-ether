@@ -2,6 +2,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import SocialNetwork from '../../abis/SocialNetwork.json';
 import Web3 from 'web3';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 declare global {
   interface Window {
@@ -25,8 +26,11 @@ export class AppService {
   public profileWatched = null;
   public profileImg = null;
   @Output() profilePostsFetched$: EventEmitter<any> = new EventEmitter();
+  @Output() posted = new EventEmitter<boolean>();
 
-  constructor() { }
+
+  constructor(private router: Router) {
+  }
 
   async loadWeb3() {
     if (window.ethereum) {
@@ -34,7 +38,9 @@ export class AppService {
       await window.ethereum.enable();
     } else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider);
+      this.router.navigate(['/']);
     } else {
+      this.router.navigate(['/notrunning']);
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
   }
@@ -56,22 +62,20 @@ export class AppService {
     }
     const web3 = window.web3;
     // Network ID9
-    const networkId = await web3.eth.net.getId();
-    const networkData = SocialNetwork.networks[networkId];
-    if (networkData) {
-      const socialNetwork = web3.eth.Contract(SocialNetwork.abi, networkData.address);
-      this.socialNetwork = socialNetwork;
-      const postCount = await socialNetwork.methods.records().call();
-      this.postCount = postCount;
-      // this.loadPosts(postCount, socialNetwork);
-      for (let i = 1; i <= await postCount; i++) {
-        // tslint:disable-next-line: no-shadowed-variable
-        const post = await socialNetwork.methods.posts(i).call();
-        this.posts = [...this.posts, post];
-      }
+    // const networkId = await web3.eth.net.getId();
+    //const networkData = SocialNetwork.networks[networkId];
+    const abi = JSON.parse('[{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"postMaker","type":"address"},{"indexed":false,"internalType":"address","name":"follower","type":"address"},{"indexed":false,"internalType":"uint256","name":"amountPaid","type":"uint256"}],"name":"AccountFollowed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"personalId","type":"uint256"},{"indexed":false,"internalType":"string","name":"content","type":"string"},{"indexed":false,"internalType":"uint256","name":"tipAmount","type":"uint256"},{"indexed":false,"internalType":"address","name":"author","type":"address"},{"indexed":false,"internalType":"bool","name":"publicPost","type":"bool"}],"name":"PostCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"personalId","type":"uint256"},{"indexed":false,"internalType":"string","name":"content","type":"string"},{"indexed":false,"internalType":"uint256","name":"tipAmount","type":"uint256"},{"indexed":false,"internalType":"address","name":"author","type":"address"},{"indexed":false,"internalType":"bool","name":"publicPost","type":"bool"}],"name":"PostTipped","type":"event"},{"constant":false,"inputs":[{"internalType":"string","name":"_content","type":"string"},{"internalType":"bool","name":"_publicPost","type":"bool"}],"name":"createPost","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address payable","name":"_postMaker","type":"address"}],"name":"followAccount","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"followers","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"myPost","outputs":[{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"uint256","name":"personalId","type":"uint256"},{"internalType":"string","name":"content","type":"string"},{"internalType":"uint256","name":"tipAmount","type":"uint256"},{"internalType":"address payable","name":"author","type":"address"},{"internalType":"bool","name":"publicPost","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"personalPosts","outputs":[{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"uint256","name":"personalId","type":"uint256"},{"internalType":"string","name":"content","type":"string"},{"internalType":"uint256","name":"tipAmount","type":"uint256"},{"internalType":"address payable","name":"author","type":"address"},{"internalType":"bool","name":"publicPost","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"postPersonalCounter","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"posts","outputs":[{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"uint256","name":"personalId","type":"uint256"},{"internalType":"string","name":"content","type":"string"},{"internalType":"uint256","name":"tipAmount","type":"uint256"},{"internalType":"address payable","name":"author","type":"address"},{"internalType":"bool","name":"publicPost","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"records","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"_id","type":"uint256"}],"name":"tipPost","outputs":[],"payable":true,"stateMutability":"payable","type":"function"}]');
+
+    const socialNetwork = web3.eth.Contract(abi, '0xb6ff7F9249F3B3A3eDd715E649b6eE96FaEeBcE1');
+    this.socialNetwork = socialNetwork;
+    const postCount = await socialNetwork.methods.records().call();
+    this.postCount = postCount;
+    // this.loadPosts(postCount, socialNetwork);
+    for (let i = 1; i <= await postCount; i++) {
+      // tslint:disable-next-line: no-shadowed-variable
+      const post = await socialNetwork.methods.posts(i).call();
+      this.posts = [...this.posts, post];
       // this.posts = this.posts.sort((a, b) => b.tipAmount - a.tipAmount);
-      } else {
-       window.alert('SocialNetwork contract not deployed to detected network.');
     }
   }
 
@@ -80,9 +84,11 @@ export class AppService {
   }
 
   async createPost(content: string, publicPost: boolean) {
+    this.posted.emit(true);
     const created = await this.socialNetwork.methods.createPost(content, publicPost).send({ from: this.account });
     console.log(created);
     if (created) {
+      console.log('finished');
     }
   }
 
@@ -140,7 +146,7 @@ export class AppService {
 
   async follow() {
     const web3 = window.web3;
-    this.socialNetwork.methods.followAccount(this.profileWatched).send( {from: this.account, value: web3.utils.toWei('1', 'Ether')});
+    this.socialNetwork.methods.followAccount(this.profileWatched).send( {from: this.account, value: 1});
 
   }
 }

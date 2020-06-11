@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface DialogData {
   publicPost: boolean;
@@ -13,10 +14,13 @@ export interface DialogData {
 })
 export class PostInputComponent implements OnInit {
   privacy: 'public' | 'private' = 'public';
+
   constructor(public dialogRef: MatDialogRef<PostInputComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
               // tslint:disable-next-line: variable-name
-              private _apService: AppService) {
+              private _apService: AppService,
+              // tslint:disable-next-line: variable-name
+              private _snackBar: MatSnackBar) {
 
   }
 
@@ -25,6 +29,9 @@ export class PostInputComponent implements OnInit {
 
   createPost(content: string): void {
     this._apService.createPost(content, (this.privacy === 'public'));
+    this._snackBar.open('Wait until your transaction is finished and refresh to watch your post!', 'OK', {
+      duration: 5000,
+    });
   }
 
   onNoClick(): void {

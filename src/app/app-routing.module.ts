@@ -7,13 +7,18 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./modules/main/home/home.module').then(m => m.HomeModule)
+      import('./modules/main/home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'user',
     loadChildren: () =>
       import('./modules/main/user/user.module').then(m => m.UserModule),
     canActivate: [UserGuard]
+  },
+  {
+    path: 'notrunning',
+    loadChildren: () =>
+      import('./modules/not-running/not-running/not-running.module').then(m => m.NotRunningModule)
   },
   {
     path: 'contact',
